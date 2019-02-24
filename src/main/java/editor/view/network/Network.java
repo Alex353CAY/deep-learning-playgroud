@@ -21,7 +21,6 @@ public class Network<Layer extends editor.view.layer.Layer> extends Region {
 
     private final Deque<Layer> layers = new ArrayDeque<>();
 
-
     public Network(FeatureLayerFactory<Layer> featureLayerFactory) {
         layers.addFirst(featureLayerFactory.create(root, modificationLock));
         root.getChildren().add(layers.getFirst());
@@ -51,7 +50,7 @@ public class Network<Layer extends editor.view.layer.Layer> extends Region {
                 layer.removeFeature(index);
             }
         });
-        layer.translateXProperty().bind(previousLayer.translateXProperty().add(previousLayer.widthProperty()).add(40));
+        layer.translateXProperty().bind(previousLayer.translateXProperty().add(previousLayer.widthProperty()).add(80));
         layers.add(layer);
         layer.toBack();
         root.getChildren().add(layer);
