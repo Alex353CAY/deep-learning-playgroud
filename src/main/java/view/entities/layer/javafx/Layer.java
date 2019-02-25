@@ -138,12 +138,12 @@ public abstract class Layer<Neuron extends view.entities.neuron.javafx.Neuron, C
     public final Neuron removeNeuron(int index) {
         modificationLock.writeLock().lock();
         neuronsBoundCheck(index);
-        final Neuron neuron = neurons.get(index);
+        final Neuron neuron = neurons.remove(index);
         synchronized (root) {
             root.getChildren().remove(neuron);
         }
-        if (index == 0) {
-            //если удаленных нейрон был первым
+        if (index == 0 && neurons.size() != 0) {
+            //если удаленный нейрон был первым
             neurons.get(0).translateXProperty().bind(translateXProperty().add(paddingLeft));
             neurons.get(0).translateYProperty().bind(translateYProperty().add(paddingTop));
         } else if (index < neurons.size()) {

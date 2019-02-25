@@ -75,6 +75,11 @@ public class Network<Layer extends editor.view.layer.Layer> extends Region {
             throw new IllegalStateException();
         }
         final Layer removedLayer = layers.removeLast();
+        root.getChildren().remove(removedLayer);
+        final int neuronsToRemove = removedLayer.neurons();
+        for (int i = 0; i < neuronsToRemove; i++) {
+            removedLayer.removeNeuron(0);
+        }
         modificationLock.writeLock().unlock();
         return removedLayer;
     }

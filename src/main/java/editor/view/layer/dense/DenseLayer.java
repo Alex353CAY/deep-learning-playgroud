@@ -26,18 +26,6 @@ public class DenseLayer<Neuron extends editor.view.neuron.Neuron> extends Layer<
         super(root, neuronFactory, layer -> new Configuration<>((featureIndex, neuronIndex) -> new MutableConnection(root, previousLayer.getNeuron(featureIndex), layer.getNeuron(neuronIndex), ThreadLocalRandom.current().nextDouble(-1, 1), modificationLock)), modificationLock, onNeuronAdded);
         this.activation = activation;
         this.previousLayer = previousLayer;
-        configuration.subscribe(new ConfigurationListener<MutableConnection>() {
-            @Override
-            public void onConnectionAdded(int featureIndex, int neuronIndex, MutableConnection connection) {
-                root.getChildren().add(connection);
-                connection.toFront();
-            }
-
-            @Override
-            public void onConnectionRemoved(int featureIndex, int neuronIndex, MutableConnection connection) {
-                root.getChildren().remove(connection);
-            }
-        });
         subscribe(new CompositionListener() {
             @Override
             public void onNeuronAdded(int index) {

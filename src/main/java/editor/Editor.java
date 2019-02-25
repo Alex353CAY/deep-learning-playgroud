@@ -33,12 +33,10 @@ public class Editor extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        final Label predictionField = new Label("NULL");
+        final Label predictionField = new Label("Select neuron");
         final Network<Layer> network = new Network<>((root, modificationLock) -> new FeatureLayer<>(root, neuronFactory, modificationLock, neuron -> neuron.setOnMouseClicked(event -> predictionField.setText(String.valueOf(neuron.getPrediction())))));
         final Button addLayer = new Button("Add layer");
         final Button removeLayer = new Button("Remove layer");
-        final Button addNeuron = new Button("Add neuron");
-        final Button removeNeuron = new Button("Remove neuron");
         final Button predict = new Button("Predict");
         final Button train = new Button("Train");
 
@@ -55,6 +53,12 @@ public class Editor extends Application {
         network.addFeature(2);
         output.addNeuron(0);
         output.addNeuron(0);
+
+        addLayer.setOnAction(event -> {
+            final Layer layer = network.addLayer(layerLayerBuilder);
+            layer.addNeuron(0);
+        });
+        removeLayer.setOnAction(event -> network.removeLayer());
 
         predict.setOnAction(event ->
                 network.predict(new double[]{0, 0.5, 0.75}).iterator().forEachRemaining(prediction -> prediction.layer.showPrediction(prediction.prediction.toArray()))

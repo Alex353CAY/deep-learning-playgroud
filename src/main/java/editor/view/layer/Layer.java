@@ -5,6 +5,7 @@ import view.entities.layer.configuration.ConfigurationFactory;
 import view.entities.layer.configuration.ObservableConfiguration;
 import view.entities.neuron.javafx.factories.NeuronFactory;
 import view.events.layer.composition.CompositionListener;
+import view.events.layer.configuration.ConfigurationListener;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
@@ -25,6 +26,19 @@ public abstract class Layer<Neuron extends editor.view.neuron.Neuron, Connection
             @Override
             public void onNeuronRemoved(int index) {
 
+            }
+        });
+
+        configuration.subscribe(new ConfigurationListener<Connection>() {
+            @Override
+            public void onConnectionAdded(int featureIndex, int neuronIndex, Connection connection) {
+                root.getChildren().add(connection);
+                connection.toBack();
+            }
+
+            @Override
+            public void onConnectionRemoved(int featureIndex, int neuronIndex, Connection connection) {
+                root.getChildren().remove(connection);
             }
         });
     }

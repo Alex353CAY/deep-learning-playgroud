@@ -31,4 +31,5 @@ public class MutableConnection extends Connection implements view.entities.conne
     protected boolean modificationIsAllowed(double newWeight) {
         return true;
     }
+
 }
